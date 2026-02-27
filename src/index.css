@@ -50,6 +50,16 @@ a {
   --transition-default: all 0.3s ease;
 }
 
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section {
+  padding: 60px 0;
+}
+
 .neon-blue {
   color: var(--neon-blue);
 }
@@ -58,12 +68,34 @@ a {
   color: var(--neon-pink);
 }
 
+.surface {
+  background-color: var(--bg-surface);
+}
+
 .btn {
   padding: 10px 20px;
   cursor: pointer;
   border-radius: 6px;
   transition: var(--transition-default);
   font-weight: 500;
+}
+
+.btn-blue {
+  background-color: var(--neon-blue);
+  color: var(--text-primary);
+}
+
+.btn-blue:hover {
+  box-shadow: 0 0 12px var(--neon-blue);
+}
+
+.btn-pink {
+  background-color: var(--neon-pink);
+  color: var(--text-primary);
+}
+
+.btn-pink:hover {
+  box-shadow: 0 0 12px var(--neon-pink);
 }
 
 .btn-outline-blue {
