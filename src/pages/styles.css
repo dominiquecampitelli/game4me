@@ -1,0 +1,41 @@
+.filters-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background-color: #000;
+}
+
+.react-select {
+  width: 100%;
+}
+
+.ram-input {
+  width: 100%;
+  padding: 12px;
+  background: #111;
+  border: 2px solid #00f0ff;
+  border-radius: 8px;
+  color: white;
+  font-size: 14px;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+.ram-input:focus {
+  border-color: #ff00c8;
+  box-shadow: 0 0 8px #ff00c8;
+}
+
+@media (min-width: 768px) {
+  .filters-container {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .react-select,
+  .ram-input {
+    flex: 1;
+  }
+}
