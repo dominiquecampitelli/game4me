@@ -96,9 +96,6 @@ export default function HeroCarousel() {
           {mockBanners.map((banner) => (
             <div className="hero-slide" key={banner.id}>
               <img src={banner.image} alt={banner.title} />
-              <div className="hero-overlay">
-                <button className="btn btn-pink">Ver lançamento</button>
-              </div>
             </div>
           ))}
         </div>

@@ -51,6 +51,10 @@ export default function Home() {
     setLoading(true);
     setError(null);
 
+    if (!genres.length || !platforms.length || !ram) {
+      throw new Error("Selecione pelo menos um gênero, plataforma ou memória RAM.");
+    }
+
     let allGames: Game[] = [];
 
     const selectedGenres = genres.length ? genres : [{ value: "", label: "" }];
@@ -150,7 +154,7 @@ export default function Home() {
           options={genreOptions}
           value={genres}
           onChange={setGenres}
-          placeholder="Selecione os gêneros"
+          placeholder="Selecione o gênero"
           isMulti
         />
         <CustomSelect

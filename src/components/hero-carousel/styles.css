@@ -6,7 +6,7 @@
 .hero-banner {
   position: relative;
   width: 100%;
-  height: 80vh;
+  height: 30vh;
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid var(--neon-blue);
@@ -28,13 +28,6 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.hero-overlay {
-  position: absolute;
-  bottom: 30px;
-  left: 20px;
-  right: 20px;
 }
 
 .hero-arrow {
@@ -66,17 +59,9 @@
 
 @media (min-width: 768px) {
   .hero-banner {
-    height: 85vh;
+    height: 80vh;
     border-radius: 16px;
     box-shadow: 0 0 20px var(--neon-blue);
-  }
-
-  .hero-overlay {
-    top: 80%;
-    left: 80px;
-    transform: translateY(-50%);
-    bottom: auto;
-    right: auto;
   }
 
   .hero-arrow {

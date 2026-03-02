@@ -9,13 +9,12 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 20px;
+  margin-bottom: 20px;
   background-color: #000;
 }
 
 @media (min-width: 768px) {
   .filters-container {
     flex-direction: row;
-    align-items: center;
   }
 }
