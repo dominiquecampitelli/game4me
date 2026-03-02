@@ -51,7 +51,7 @@ export default function Home() {
     setLoading(true);
     setError(null);
 
-    if (!genres.length || !platforms.length || !ram) {
+    if (!genres.length && !platforms.length && !ram) {
       throw new Error("Selecione pelo menos um gênero, plataforma ou memória RAM.");
     }
 
