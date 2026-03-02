@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { getGamesUrl } from "../../services/api";
+import { getGamesUrl, getGameDetailsUrl } from "../../services/api";
 
 import Navbar from "../../components/navbar";
 import HeroCarousel from "../../components/hero-carousel";
 import CustomSelect from "../../components/custom-select";
 import type { SelectOption } from "../../components/custom-select";
-import RAMMemory from "../../components/filters/ram-memory";
+import InputNumber from "../../components/input-number";
 
 import "./styles.css";
 
@@ -41,6 +41,7 @@ type Game = {
 export default function Home() {
   const [genres, setGenres] = useState<SelectOption[]>([]);
   const [platform, setPlatform] = useState<SelectOption | null>(null);
+  const [ram, setRam] = useState<number | null>(null);
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -54,7 +55,6 @@ export default function Home() {
 
       for (const genre of genres) {
         const platformValue = platform?.value;
-
         const url = getGamesUrl(genre.value, platformValue);
 
         const response = await fetch(url);
@@ -71,10 +71,53 @@ export default function Home() {
         new Map(allGames.map((g) => [g.id, g])).values(),
       );
 
-      if (!uniqueGames.length) {
-        throw new Error("Nenhum jogo encontrado.");
+      let filteredGames = uniqueGames;
+
+      if (ram) {
+        const gamesWithDetails = await Promise.all(
+          uniqueGames.map(async (game) => {
+            const res = await fetch(getGameDetailsUrl(game.id));
+
+            if (!res.ok) return null;
+
+            const details = await res.json();
+
+            return {
+              ...game,
+              minimum_system_requirements: details.minimum_system_requirements,
+            };
+          }),
+        );
+
+        filteredGames = gamesWithDetails
+          .filter((game) => {
+            if (!game?.minimum_system_requirements?.memory) return false;
+
+            const memoryString = game.minimum_system_requirements.memory;
+
+            const memoryNumber = parseInt(memoryString.replace(/\D/g, ""));
+
+            return memoryNumber <= ram;
+          })
+          .map((game) => ({
+            id: game!.id,
+            title: game!.title,
+            thumbnail: game!.thumbnail,
+            game_url: game!.game_url,
+          }));
       }
-      setGames(uniqueGames);
+
+      if (!uniqueGames.length) {
+        throw new Error("Nenhum jogo encontrado por gênero ou plataforma.");
+      }
+
+      if (ram && !filteredGames.length) {
+        setGames([]);
+        setError("Nenhum jogo compatível com a memória informada.");
+        return;
+      }
+
+      setGames(filteredGames);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
@@ -106,8 +149,8 @@ export default function Home() {
           onChange={setPlatform}
           placeholder="Selecione a plataforma"
         />
-        <RAMMemory />
-        <button onClick={handleSearch}>
+        <InputNumber value={ram} onChange={setRam} />
+        <button className="btn btn-blue" onClick={handleSearch}>
           {loading ? "Buscando..." : "Buscar recomendação"}
         </button>
       </div>
